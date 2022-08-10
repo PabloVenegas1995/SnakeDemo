@@ -5,21 +5,30 @@ using UnityEngine;
 public class RotatingItem : MonoBehaviour
 {
     public AudioSource audioSource;
-    public float speed = 50.0f;
+    private float speed = 50.0f;
+    private GameObject child;
 
+    private bool rotating = true;
+
+    // public bool blinking = false;
     
+    void Start(){
+        this.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        child = this.gameObject.transform.GetChild(0).gameObject;//.SetActive(true);
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //GameObject player = GameObject.FindWithTag("Player");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        transform.Rotate(Vector3.up * speed * Time.deltaTime);
-    
+        if(rotating)
+            transform.Rotate(Vector3.up * speed * Time.deltaTime);
+        else{
+            child.transform.position += Vector3.up * 0.001f;
+            
+        }
+        // if(blinking){
+        //     StartCoroutine(Blink());
+        // }
     }
 
 
@@ -29,14 +38,21 @@ public class RotatingItem : MonoBehaviour
         {
             GameObject player = GameObject.FindWithTag("Player");
             audioSource.Play();
+            rotating = false;
+            child.SetActive(true);
+            child.transform.rotation = Quaternion.Euler(0.0f, -60.0f, 0.0f);
             Player playerScript = player.GetComponent<Player>();
             playerScript.items++;
-            //collider.gameObject.items++;
-            //GetComponent(MeshRenderer).enabled = false;
-            // float intermissionDelay = 0.3f;
-            // WaitForSeconds waitTime = new WaitForSeconds(intermissionDelay);
-            //Blink();
+            // blinking = true;
             Destroy(gameObject,1);
         }
     }
+
+    // IEnumerator Blink(){
+    //     while (blinking){
+    //         this.GetComponent<Renderer>().enabled = false;
+    //         yield return new WaitForSeconds(0.4f);
+    //         this.GetComponent<Renderer>().enabled = true;
+    //     }
+    // }
 }
