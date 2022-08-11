@@ -43,16 +43,24 @@ public class RotatingItem : MonoBehaviour
             child.transform.rotation = Quaternion.Euler(0.0f, -60.0f, 0.0f);
             Player playerScript = player.GetComponent<Player>();
             playerScript.items++;
+            StartCoroutine(Blink());
             // blinking = true;
             Destroy(gameObject,1);
         }
     }
 
-    // IEnumerator Blink(){
-    //     while (blinking){
-    //         this.GetComponent<Renderer>().enabled = false;
-    //         yield return new WaitForSeconds(0.4f);
-    //         this.GetComponent<Renderer>().enabled = true;
-    //     }
-    // }
+    private IEnumerator Blink(){
+        //while (blinking){
+        this.GetComponent<Renderer>().enabled = false;
+        yield return new WaitForSeconds(0.2f);
+        this.GetComponent<Renderer>().enabled = true;
+        yield return new WaitForSeconds(0.2f);
+        this.GetComponent<Renderer>().enabled = false;
+        yield return new WaitForSeconds(0.2f);
+        this.GetComponent<Renderer>().enabled = true;
+        yield return new WaitForSeconds(0.2f);
+        this.GetComponent<Renderer>().enabled = false;
+        yield return new WaitForSeconds(0.2f);
+        this.GetComponent<Renderer>().enabled = true;
+    }
 }

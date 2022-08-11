@@ -59,7 +59,7 @@ public class Level : MonoBehaviour
         }
 
         }
-    IEnumerator SpinToWin(){
+    private IEnumerator SpinToWin(){
         if (acelerating)
             player.transform.Rotate(Vector3.up * speed * Time.deltaTime );
         if (desAcelerating)

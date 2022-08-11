@@ -8,6 +8,14 @@ public class MainMenu : MonoBehaviour
 
     public GameObject panel;
 
+    private Animator anim;
+
+    void Start()
+    {
+        anim = panel.GetComponent<Animator>();
+    }
+
+
     public void ClosePanel(){
         
     }
@@ -17,9 +25,14 @@ public class MainMenu : MonoBehaviour
     }
 
     public void StartGame(){
-
-        //SceneManager.LoadScene("Gameplay");
+        if (anim != null){
+                anim.enabled = true;
+        }
+        StartCoroutine(WaitForPlay());
     }
-    // Start is called before the first frame update
-    
+    private IEnumerator WaitForPlay(){
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("Gameplay");
+        
+    }
 }
