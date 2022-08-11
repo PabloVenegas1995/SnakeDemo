@@ -10,12 +10,10 @@ public class RotatingItem : MonoBehaviour
 
     private bool rotating = true;
 
-    // public bool blinking = false;
+    public bool blinking = false;
     
     void Start(){
-        this.gameObject.transform.GetChild(0).gameObject.SetActive(false);
-        child = this.gameObject.transform.GetChild(0).gameObject;//.SetActive(true);
-
+        child = this.gameObject.transform.GetChild(0).gameObject;       
     }
 
     void Update()
@@ -26,16 +24,13 @@ public class RotatingItem : MonoBehaviour
             child.transform.position += Vector3.up * 0.001f;
             
         }
-        // if(blinking){
-        //     StartCoroutine(Blink());
-        // }
     }
-
 
     void OnTriggerEnter(Collider collider)
     {
         if(collider.gameObject.tag == "Player")
         {
+            this.GetComponent<Collider>().enabled = false;
             GameObject player = GameObject.FindWithTag("Player");
             audioSource.Play();
             rotating = false;
@@ -43,24 +38,18 @@ public class RotatingItem : MonoBehaviour
             child.transform.rotation = Quaternion.Euler(0.0f, -60.0f, 0.0f);
             Player playerScript = player.GetComponent<Player>();
             playerScript.items++;
+            blinking = true;
             StartCoroutine(Blink());
-            // blinking = true;
             Destroy(gameObject,1);
         }
     }
 
     private IEnumerator Blink(){
-        //while (blinking){
-        this.GetComponent<Renderer>().enabled = false;
-        yield return new WaitForSeconds(0.2f);
-        this.GetComponent<Renderer>().enabled = true;
-        yield return new WaitForSeconds(0.2f);
-        this.GetComponent<Renderer>().enabled = false;
-        yield return new WaitForSeconds(0.2f);
-        this.GetComponent<Renderer>().enabled = true;
-        yield return new WaitForSeconds(0.2f);
-        this.GetComponent<Renderer>().enabled = false;
-        yield return new WaitForSeconds(0.2f);
-        this.GetComponent<Renderer>().enabled = true;
+        while (blinking){
+            this.GetComponent<Renderer>().enabled = false;
+            yield return new WaitForSeconds(0.2f);
+            this.GetComponent<Renderer>().enabled = true;
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 }

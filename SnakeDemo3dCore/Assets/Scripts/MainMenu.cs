@@ -16,10 +16,6 @@ public class MainMenu : MonoBehaviour
     }
 
 
-    public void ClosePanel(){
-        
-    }
-
     public void ExitGame() {
         Application.Quit();
     }
@@ -31,7 +27,8 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(WaitForPlay());
     }
     private IEnumerator WaitForPlay(){
-        yield return new WaitForSeconds(3f);
+        panel.GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene("Gameplay");
         
     }
